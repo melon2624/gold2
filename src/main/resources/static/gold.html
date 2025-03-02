@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        /* 添加CSS样式以让label和div在同一行显示 */
+        /*#paramInput,*/
+        /*    !* dataDisplay容器 *!*/
+        /*#rongtongjin {*/
+        /*    display: inline-block;*/
+        /*    vertical-align: top;*/
+        /*    position: relative; !* 使得内部的绝对定位元素相对于它定位 *!*/
+        /*}*/
+
+        /*!* 计算利润按钮 *!*/
+        /*#calculateButton {*/
+        /*    position: absolute; !* 设置按钮为绝对定位 *!*/
+        /*    top: 20; !* 按钮距离父容器顶部的距离 *!*/
+        /*    left: 320px; !* 按钮距离父容器左侧的距离 *!*/
+        /*}*/
+
+        /* 为了保证每个编辑按钮和提交按钮在相应文本的右侧 */
+        .exchange-rate-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* 为了在每个容器之间增加一点间距 */
+        }
+
+        .editButton, .submitButton {
+            margin-left: 10px; /* 为了与文本之间留出一些间距 */
+        }
+
+
+        /* 为了保证每个编辑按钮和提交按钮在相应文本的右侧 */
+        .water-level-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* 为了在每个容器之间增加一点间距 */
+        }
+
+        .editWaterButton, .submitWaterButton {
+            margin-left: 10px; /* 为了与文本之间留出一些间距 */
+        }
+
+
+        /* 为了保证每个编辑按钮和提交按钮在相应文本的右侧 */
+        .hkd-exchange-rate-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* 为了在每个容器之间增加一点间距 */
+        }
+
+        /*.hkd-exchange-rate-display {*/
+        /*    flex-grow: 1;*/
+        /*}*/
+
+        .editHKDButton, .submitHKDButton {
+            margin-left: 10px; /* 为了与文本之间留出一些间距 */
+        }
+
+
+    </style>
+
+</head>
+<body>
+<div>
+    <div class="exchange-rate-container">
+        <div class="exchange-rate-display">人民币换美金汇率: <span id="exchangeRateDisplay">7.21</span></div>
+        <button class="editButton">编辑</button>
+        <button class="submitButton" style="display: none;">提交</button>
+    </div>
+
+    <div class="water-level-container">
+        <div class="water-level-display">水位: <span class="water-level">2</span></div>
+        <button class="editWaterButton">编辑</button>
+        <button class="submitWaterButton" style="display: none;">提交</button>
+    </div>
+
+    <div class="hkd-exchange-rate-container">
+        <div class="hkd-exchange-rate-display">美金换港币汇率: <span class="exchange-rate">7.75</span></div>
+        <button class="editHKDButton">编辑</button>
+        <button class="submitHKDButton" style="display: none;">提交</button>
+    </div>
+
+
+    <!--    &lt;!&ndash; 输入参数的输入框 &ndash;&gt;-->
+    <!--    <label for="paramInput">人民币换美金汇率：</label>-->
+
+    <!--    <input type="text" id="paramInput">-->
+    <!--    <br> &lt;!&ndash; 添加换行 &ndash;&gt;-->
+    <!--    <label for="paramInput">港金价格：</label>-->
+    <!--    <input type="text" id="paramInput3">-->
+    <!--    <br> &lt;!&ndash; 添加换行 &ndash;&gt;-->
+    <!--    <label for="paramInput">美换港汇率：</label>-->
+    <!--    <input type="text" id="paramInput2">-->
+    <!--    <br>-->
+    <!--    <label for="paramInput">好月色拿料价格：</label>-->
+    <!--    <input type="text" id="paramInput2">-->
+    <!--    <br>-->
+    <!--    <label for="paramInput">日曦拿料价格：</label>-->
+    <!--    <input type="text" id="paramInput2">-->
+    <!--    <br>-->
+    <!--    <label for="paramInput">融通金回收价：</label>-->
+    <!--    <div id="rongtongjin"></div>-->
+    <!--    <button id="calculateButton" onclick="requestData()">计算利润</button>-->
+</div>
+
+
+
+<script>
+
+    var editButtons = document.querySelectorAll('.editButton');
+       var submitButtons = document.querySelectorAll('.submitButton');
+       var exchangeRateDisplays = document.querySelectorAll('.exchange-rate-display');
+
+       for (var i = 0; i < editButtons.length; i++) {
+           editButtons[i].addEventListener('click', function() {
+               var container = this.parentElement;
+               var display = container.querySelector('.exchange-rate-display');
+               var editButton = container.querySelector('.editButton');
+               var submitButton = container.querySelector('.submitButton');
+
+               editButton.style.display = 'none';
+               submitButton.style.display = 'inline';
+
+               var exchangeRateSpan = display.querySelector('span');
+               var exchangeRateValue = exchangeRateSpan.innerText;
+               exchangeRateSpan.innerHTML = '<input type="text" id="exchangeRateInput" value="' + exchangeRateValue + '">';
+
+               submitButton.addEventListener('click', function() {
+                   var input = display.querySelector('input');
+                   var newValue = parseFloat(input.value);
+                   exchangeRateSpan.innerText = newValue;
+                   input.remove();
+
+                   editButton.style.display = 'inline';
+                   submitButton.style.display = 'none';
+                updateExchangeRate(newValue,1);
+                   // 在这里你可以将新的值提交到服务器
+               });
+           });
+       }
+
+
+
+
+
+
+        var editWaterButtons = document.querySelectorAll('.editWaterButton');
+    var submitWaterButtons = document.querySelectorAll('.submitWaterButton');
+    var waterLevelDisplays = document.querySelectorAll('.water-level-display');
+
+    for (var i = 0; i < editWaterButtons.length; i++) {
+        editWaterButtons[i].addEventListener('click', function() {
+            var container = this.parentElement;
+            var waterLevelDisplay = container.querySelector('.water-level-display');
+            var editWaterButton = container.querySelector('.editWaterButton');
+            var submitWaterButton = container.querySelector('.submitWaterButton');
+
+            editWaterButton.style.display = 'none';
+            submitWaterButton.style.display = 'inline';
+
+            var waterLevelSpan = waterLevelDisplay.querySelector('.water-level');
+
+            var waterLevelValue = waterLevelSpan.innerText;
+            waterLevelSpan.innerHTML = '<input type="text" class="waterLevelInput" value="' + waterLevelValue + '">';
+
+            submitWaterButton.addEventListener('click', function() {
+                var waterLevelInput = waterLevelDisplay.querySelector('.waterLevelInput');
+                var waterLevelNewValue = parseFloat(waterLevelInput.value);
+                waterLevelSpan.innerText = waterLevelNewValue  ;
+                waterLevelInput.remove();
+
+                editWaterButton.style.display = 'inline';
+                submitWaterButton.style.display = 'none';
+
+                // 在这里你可以将新的水位值提交到服务器
+            });
+        });
+    }
+
+
+
+
+
+  var editHKDButtons = document.querySelectorAll('.editHKDButton');
+    var submitHKDButtons = document.querySelectorAll('.submitHKDButton');
+    var exchangeRateDisplays = document.querySelectorAll('.hkd-exchange-rate-display');
+
+    for (var i = 0; i < editHKDButtons.length; i++) {
+        editHKDButtons[i].addEventListener('click', function() {
+            var container = this.parentElement;
+            var exchangeRateDisplay = container.querySelector('.hkd-exchange-rate-display');
+            var editHKDButton = container.querySelector('.editHKDButton');
+            var submitHKDButton = container.querySelector('.submitHKDButton');
+
+            editHKDButton.style.display = 'none';
+            submitHKDButton.style.display = 'inline';
+
+            var exchangeRateSpan = exchangeRateDisplay.querySelector('.exchange-rate');
+
+            var exchangeRateValue = exchangeRateSpan.innerText;
+            exchangeRateSpan.innerHTML = '<input type="text" class="exchangeRateInput" value="' + exchangeRateValue + '">';
+
+            submitHKDButton.addEventListener('click', function() {
+                var exchangeRateInput = exchangeRateDisplay.querySelector('.exchangeRateInput');
+                var hkdExchangeRateNewValue = parseFloat(exchangeRateInput.value);
+                exchangeRateSpan.innerText = hkdExchangeRateNewValue;
+                exchangeRateInput.remove();
+
+                editHKDButton.style.display = 'inline';
+                submitHKDButton.style.display = 'none';
+
+                // 在这里你可以将新的美金换港币汇率值提交到服务器
+            });
+        });
+    }
+
+
+
+
+function updateExchangeRate(rate, dataType) {
+    // 发送POST请求到服务器端
+    return fetch('/http://127.0.0.1:8082/gold/updateRate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ exchangeRate: rate, type: dataType })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        console.log('新的美金换港币汇率已成功提交到服务器:', data);
+        return data; // 返回服务器响应的数据
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+        throw error; // 抛出错误，以便调用方处理
+    });
+}
+
+
+
+
+      function requestData() {
+             // 获取输入框中的参数值
+             var paramValue = document.getElementById('paramInput').value;
+
+             // 使用 JavaScript 发起 HTTP 请求
+             var xhr = new XMLHttpRequest();
+
+             // 后端接口的 URL，将参数值拼接到 URL 中
+             var url = 'http://127.0.0.1:8082/gold/goldPrice'
+
+             // 发起 GET 请求
+             xhr.open('GET', url, true);
+
+             // 请求完成时的回调函数
+             xhr.onload = function () {
+                 if (xhr.status >= 200 && xhr.status < 300) {
+                     // 请求成功时，更新页面上的值为返回的数据
+                     document.getElementById('rongtongjin').textContent = xhr.responseText;
+                 } else {
+                     // 请求失败时，显示错误信息
+                     document.getElementById('rongtongjin').textContent = '请求失败，请稍后再试';
+                 }
+             };
+
+             // 发送请求
+             xhr.send();
+         }
+      setInterval(requestData, 2000);
+
+</script>
+</body>
+</html>
