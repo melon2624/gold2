@@ -1,5 +1,6 @@
 package com.melo.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -11,15 +12,17 @@ import java.util.List;
 @Data
 public class ProductEntityDTO {
 
-    String name;
+    @Schema(description = "产品名称", example = "小米手机")
+    private String name;
 
-    String desc;
+    @Schema(description = "产品描述", example = "2024新款，超薄设计")
+    private String desc;
 
-    String isEnable;
+    @Schema(description = "是否启用（Y/N）", example = "Y")
+    private String isEnable;
 
-    String type;
-
-    List[] picture;
+    @Schema(description = "产品类型", example = "电子产品")
+    private String type;
 
 
 }

@@ -9,6 +9,7 @@ import com.melo.entity.Product;
 import com.melo.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     @Autowired
     ProductMapper productMapper;
 
-    public  void  addProduct(ProductEntityDTO productEntityDTO){
+    public  void  addProduct(ProductEntityDTO productEntityDTO, MultipartFile[] pictureList){
 
         Product product=new Product();
         product.setDescription(productEntityDTO.getDesc());
@@ -36,6 +37,13 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
         product.setUpdateTime(new Date());
         productMapper.insert(product);
 
+        System.out.println("Received name: " + product.getName());
+
+        for (MultipartFile file : pictureList) {
+            if (file.isEmpty()) {
+                continue;
+            }
+        }
     }
 
     @Override

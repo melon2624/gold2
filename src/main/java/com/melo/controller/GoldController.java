@@ -5,13 +5,16 @@ import com.melo.dto.ProductQueryDTO;
 import com.melo.restful.RetResponse;
 import com.melo.restful.RetResult;
 import com.melo.service.ProductService;
-import com.melo.service.ProductServiceImpl;
 import com.melo.util.EmailUtil;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author zhangxin
@@ -21,13 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/gold")
 @RestController
 @Slf4j
+@Tag(name = "产品接口", description = "提供 CRUD 服务")
 public class GoldController {
 
     @Autowired
     ProductService productService;
 
 
-    @RequestMapping("/test")
+    @PostMapping("/test")
     public  void  test(){
         System.out.println("qqqqqqqqqqqqqqqqqqqqqqq");
     }
@@ -35,42 +39,50 @@ public class GoldController {
     @Autowired
     EmailUtil emailUtil;
 
-    @RequestMapping("/sendEmail")
+    @PostMapping("/sendEmail")
     public  void sendEmail(){
         emailUtil.sendMessage("1415458002@qq.com","test","test");
     }
 
 
-    @RequestMapping("/selectProduct")
+    @GetMapping("/selectProduct")
     public  void  selectProduct(@RequestBody ProductQueryDTO productQueryDTO){
-
 
 
         return;
     }
-    @RequestMapping("/addProduct")
-    public RetResult addProduct(@RequestBody ProductEntityDTO productEntityDTO){
 
-        productService.addProduct(productEntityDTO);
 
+    @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "上传产品信息与图片")
+    public RetResult addProduct(
+            @Parameter(description = "产品名称") @RequestPart("name") String name,
+            @Parameter(description = "产品描述") @RequestPart("desc") String desc,
+            @Parameter(description = "产品类型,只填写1或者2或者3") @RequestPart("type") String type,
+            @Parameter(description = "图片文件") @RequestPart("picture") MultipartFile[] pictureList) {
+
+        ProductEntityDTO dto = new ProductEntityDTO();
+        dto.setName(name);
+        dto.setDesc(desc);
+        dto.setType(type);
+
+        productService.addProduct(dto, pictureList);
         return RetResponse.OK();
     }
 
-    @RequestMapping("/delectProduct")
+    @PostMapping("/delectProduct")
     public  RetResult  delectProduct(@RequestBody ProductQueryDTO productQueryDTO ){
         productService.deleteProduct(productQueryDTO);
         return RetResponse.OK();
     }
 
-    @RequestMapping("/selectProductDetail")
+    @GetMapping("/selectProductDetail")
     public  void  selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
 
     }
-    @RequestMapping("/updateProduct")
+    @PostMapping("/updateProduct")
     public void  updateProduct(@RequestBody ProductQueryDTO productQueryDTO){
-
         return;
-
     }
 
 

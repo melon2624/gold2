@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.melo.dto.ProductEntityDTO;
 import com.melo.dto.ProductQueryDTO;
 import com.melo.entity.Product;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ProductService extends IService<Product> {
 
 
-    public  void  addProduct(ProductEntityDTO productEntityDTO);
+    public  void  addProduct(ProductEntityDTO productEntityDTO, MultipartFile[] pictureList);
 
     public  void  deleteProduct(ProductQueryDTO productQueryDTO);
 
