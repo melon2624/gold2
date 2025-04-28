@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>野猪 Gold 黃金</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .logo {
+            margin: 20px 0;
+        }
+        .logo img {
+            max-width: 180px;
+            height: auto;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 320px;
+            color: #fff;
+        }
+        th, td {
+            border: 1px solid #bfae82;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #1a1a1a;
+            font-weight: bold;
+        }
+        td:first-child {
+            text-align: left;
+            padding-left: 12px;
+        }
+        .footer {
+            margin: 20px 10px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo">
+    <img src="/image/logo.jpeg" alt="Pig GOLD">
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <tr>
+            <th></th>
+            <th>賣出 SELL</th>
+            <th>買入 BUY</th>
+        </tr>
+        <tr>
+            <td>散料(港币)</td>
+            <td>830.53</td>
+            <td>814.34</td>
+        </tr>
+        <tr>
+            <td>散料(USDT)</td>
+            <td>107.00</td>
+            <td>106.79</td>
+        </tr>
+        <tr>
+            <td>散料(美金)</td>
+            <td>107.00</td>
+            <td>106.79</td>
+        </tr>
+        <tr>
+            <td>整条板料水位(USDT)</td>
+            <td>+10</td>
+            <td>+3</td>
+        </tr>
+        <tr>
+            <td>倫敦金 (未扣水)</td>
+            <td>3,320.09</td>
+            <td>3,319.00</td>
+        </tr>
+
+        <tr>
+            <td>中國 水貝</td>
+            <td>-</td>
+            <td>790.00(回购)</td>
+        </tr>
+        <tr>
+            <td>散料基差</td>
+            <td>12.69 / 克</td>
+            <td>1.63%</td>
+        </tr>
+        <tr>
+            <td>整条料基差</td>
+            <td>12.69 / 克</td>
+            <td>1.63%</td>
+        </tr>
+        <tr>
+            <td>--</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="footer">
+    最後更新時間：<span id="update-time"></span> (GMT+8)<br><br>
+    Room417, 4/F, Hankow Centre, 15 Hankow Road, Tsim Sha Tsui, HK<br>
+    尖沙咀漢口道15號漢口中心4樓417室<br>
+    WhatsApp: +852 9780 8893<br>
+    營業時間：上午10時30分至下午8時
+</div>
+
+<div class="qr-code">
+    <img src="/image/qr-code.jpeg" alt="QR Code">
+</div>
+
+<div class="footer">
+    +852 9780 8893
+</div>
+
+<script>
+  function updateTime() {
+    const now = new Date();
+    // 计算成 GMT+8 时间
+    const utc8Time = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const year = utc8Time.getUTCFullYear();
+    const month = String(utc8Time.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(utc8Time.getUTCDate()).padStart(2, '0');
+    const hour = String(utc8Time.getUTCHours()).padStart(2, '0');
+    const minute = String(utc8Time.getUTCMinutes()).padStart(2, '0');
+    const second = String(utc8Time.getUTCSeconds()).padStart(2, '0');
+
+    document.getElementById('update-time').textContent = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
+
+</body>
+</html>

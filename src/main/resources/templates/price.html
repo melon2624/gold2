@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>野猪 Gold 黃金</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .logo {
+            margin: 20px 0;
+        }
+        .logo img {
+            max-width: 180px;
+            height: auto;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 320px;
+            color: #fff;
+        }
+        th, td {
+            border: 1px solid #bfae82;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #1a1a1a;
+            font-weight: bold;
+        }
+        td:first-child {
+            text-align: left;
+            padding-left: 12px;
+        }
+        .footer {
+            margin: 20px 10px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo">
+    <img src="/image/logo.jpg" alt="Pig GOLD">
+</div>
+
+<div class="table-wrapper">
+    <table id="price-table">
+        <thead>
+        <tr>
+            <th>項目</th>
+            <th>賣出 SELL</th>
+            <th>買入 BUY</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 数据从后台接口动态填充 -->
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">
+    最後更新時間：<span id="update-time"></span> (GMT+8)<br><br>
+    Room 1032, 10/F, Block B, Foco Industrial Building, 21 Man Lok Street, Hunghom<br>
+    紅磡民樂街21號富高工業大廈B座10樓1032<br>
+    WhatsApp: +852 9780 8893<br>
+    營業時間：上午10時30分至下午8時
+</div>
+
+<div class="qr-code">
+    <img src="/image/qr-code.jpeg" alt="QR Code">
+</div>
+
+<div class="footer">
+    +852 9780 8893
+</div>
+
+<script>
+
+  // 页面加载完自动请求数据
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchData();
+  });
+
+  setInterval(fetchData, 1000);
+
+function fetchData() {
+  fetch('/gold/priceData')
+    .then(response => response.json())
+    .then(data => {
+      const itemList = data.items || [];
+      const tbody = document.querySelector('#price-table tbody');
+      if (!tbody) {
+        console.error('找不到 price-table 的 tbody');
+        return;
+      }
+      tbody.innerHTML = ''; // 清空之前的内容
+
+      itemList.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.sell}</td>
+          <td>${item.buy}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(error => {
+      console.error('獲取價格失敗:', error);
+      const updateTimeElem = document.getElementById('update-time');
+      if (updateTimeElem) {
+        updateTimeElem.innerText = '更新失敗';
+      }
+    });
+}
+
+
+  function updateTime() {
+    const now = new Date();
+    // 计算成 GMT+8 时间
+    const utc8Time = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const year = utc8Time.getUTCFullYear();
+    const month = String(utc8Time.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(utc8Time.getUTCDate()).padStart(2, '0');
+    const hour = String(utc8Time.getUTCHours()).padStart(2, '0');
+    const minute = String(utc8Time.getUTCMinutes()).padStart(2, '0');
+    const second = String(utc8Time.getUTCSeconds()).padStart(2, '0');
+
+    document.getElementById('update-time').textContent = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
+
+</body>
+</html>

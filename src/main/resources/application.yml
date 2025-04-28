@@ -1,11 +1,11 @@
 server:
-  port: 9000
+  port: 8089
 spring:
   datasource:
-    url: jdbc:mysql://172.16.23.99:3306/whitelist?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8&useLegacyDatetimeCode=false
-    username: shkuser
-    password: shkpassword
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123457
+    url: jdbc:mysql://101.126.20.67:3306/test?characterEncoding=utf-8&useSSL=false&useTimezone=true&serverTimezone=GMT%2B8
   freemarker:
   mvc:
     settings:
@@ -23,6 +23,16 @@ spring:
         smtp:
         socketFactoryClass: javax.net.ssl.SSLSocketFactory
     from: 772105823@qq.com
+  redis:
+    host: 101.126.20.67
+    port: 6379
+    password: zhangxin  # 如果有密码，填写密码；没有密码则留空
+    jedis:
+      pool:
+        max-idle: 10          # 最大空闲连接数
+        min-idle: 1           # 最小空闲连接数
+        max-active: 100       # 最大活跃连接数
+        max-wait: 5000        # 获取连接的最大等待时间（毫秒）
 servlet:
   multipart:
     max-file-size: 10MB
@@ -30,3 +40,5 @@ servlet:
 mybatis-plus:
   type-aliases-package: com.melo.gold.entity
   mapper-locations: mapper/*.xml
+
+
