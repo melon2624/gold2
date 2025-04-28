@@ -69,6 +69,26 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
 
     }
 
+    //一个主图
+    @Override
+    public List<ProductEntityDTO> selectProductMobile(ProductQueryDTO productQueryDTO) {
+
+        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+
+        return null;
+
+    }
+
+
+    public  List  test(ProductQueryDTO productQueryDTO){
+
+        return null;
+
+    }
+
+
+
+
 }
 
 

@@ -45,12 +45,25 @@ public class GoldController {
     }
 
 
-    @GetMapping("/selectProduct")
-    public  void  selectProduct(@RequestBody ProductQueryDTO productQueryDTO){
+    //移动端 一次查8个产品,主要是主图,和名字
+    @GetMapping("/selectProductMobile")
+    public  void  selectProductMobile(@RequestBody ProductQueryDTO productQueryDTO){
+
 
 
         return;
     }
+
+
+    @GetMapping("/selectProductPC")
+    public void  selectProductPC(@RequestBody ProductQueryDTO productQueryDTO){
+
+        //
+        productService.selectProductList(productQueryDTO);
+
+        return;
+    }
+
 
 
     @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -78,6 +91,8 @@ public class GoldController {
 
     @GetMapping("/selectProductDetail")
     public  void  selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
+
+
 
     }
     @PostMapping("/updateProduct")

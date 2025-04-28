@@ -16,4 +16,21 @@
         id,name,desc,
         type,is_enable
     </sql>
+
+
+    <select id="getProductDataForMobile" resultType="com.example.dto.ProductEntityDTO">
+        SELECT * FROM product
+        WHERE 1=1
+        <if test="query.category != null">
+            AND category = #{query.category}
+        </if>
+        <if test="query.name != null">
+            AND name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <!-- 你可以在此处添加其他的查询条件 -->
+        LIMIT #{query.pageNum}, #{query.pageSize}
+    </select>
+
+
+
 </mapper>
