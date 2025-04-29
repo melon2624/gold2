@@ -15,7 +15,7 @@ public class ProductQueryDTO {
 
     private  Integer page=1;
 
-    private Integer pageSize=8;
+    private Integer pageSize=10;
 
     private Integer id;
 

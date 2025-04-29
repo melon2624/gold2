@@ -22,6 +22,6 @@ public interface ProductService extends IService<Product> {
 
     public List<ProductEntityDTO> selectProductList(ProductQueryDTO productQueryDTO);
 
-    public List<ProductEntityDTO> selectProductMobile(ProductQueryDTO productQueryDTO);
 
+    public ProductEntityDTO selectProductDetail(ProductQueryDTO productQueryDTO);
 }

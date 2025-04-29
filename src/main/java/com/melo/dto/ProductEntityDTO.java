@@ -3,6 +3,7 @@ package com.melo.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +32,8 @@ public class ProductEntityDTO {
     private String primaryImage;
 
     @Schema(description = "产品图片集合,base64", example = "swduhsuidwwdwd")
-    private  List<String>  iamgeList;
+    private  List<ProductFileDTO>  iamgeList;
+
+    private Date createTime;
 
 }

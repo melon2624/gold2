@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author zhangxin
  * @date 2025-03-02 17:05
@@ -45,23 +47,11 @@ public class GoldController {
     }
 
 
-    //移动端 一次查8个产品,主要是主图,和名字
-    @GetMapping("/selectProductMobile")
-    public  void  selectProductMobile(@RequestBody ProductQueryDTO productQueryDTO){
-
-
-
-        return;
-    }
-
-
-    @GetMapping("/selectProductPC")
-    public void  selectProductPC(@RequestBody ProductQueryDTO productQueryDTO){
-
-        //
-        productService.selectProductList(productQueryDTO);
-
-        return;
+    //
+    @GetMapping("/selectProductList")
+    @Operation(summary = "移动端和pc端都可以，移动端一次查出来 展示主图和一些描述，点进去查看详情, 传page 和 pageSize,产品类型,用于筛选, name 字段用于模糊搜索，不过可以不做先")
+    public List<ProductEntityDTO> selectProductPC(@RequestBody ProductQueryDTO productQueryDTO){
+        return  productService.selectProductList(productQueryDTO);
     }
 
 
@@ -84,18 +74,21 @@ public class GoldController {
     }
 
     @PostMapping("/delectProduct")
+    @Operation(summary = "删除产品以及相关的图片文件,主要是传给后端id，通过id删除")
     public  RetResult  delectProduct(@RequestBody ProductQueryDTO productQueryDTO ){
         productService.deleteProduct(productQueryDTO);
         return RetResponse.OK();
     }
 
+
     @GetMapping("/selectProductDetail")
-    public  void  selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
-
-
-
+    @Operation(summary = "查看产品细节,适用于pc端查看具体某个产品详情和在移动端点进一个产品进入详情页面,传id即可,其他的都不需要")
+    public  ProductEntityDTO  selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
+        ProductEntityDTO productEntityDTO = productService.selectProductDetail(productQueryDTO);
+        return productEntityDTO;
     }
     @PostMapping("/updateProduct")
+    @Operation(summary = "更新产品,暂时还没实现")
     public void  updateProduct(@RequestBody ProductQueryDTO productQueryDTO){
         return;
     }

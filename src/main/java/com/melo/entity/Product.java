@@ -13,7 +13,7 @@ import java.util.Date;
  * 
  * @TableName product
  */
-@TableName(value ="product")
+@TableName(value ="test1")
 @Data
 public class Product implements Serializable {
     /**

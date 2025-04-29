@@ -3,14 +3,20 @@ package com.melo.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import com.github.pagehelper.PageHelper;
 import com.melo.dto.ProductEntityDTO;
+import com.melo.dto.ProductFileDTO;
 import com.melo.dto.ProductQueryDTO;
 import com.melo.entity.Product;
+import com.melo.entity.ProductFile;
+import com.melo.mapper.ProductFileMapper;
 import com.melo.mapper.ProductMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +31,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
 
     @Autowired
     ProductMapper productMapper;
+
+    @Autowired
+    ProductFileMapper productFileMapper;
 
     public  void  addProduct(ProductEntityDTO productEntityDTO, MultipartFile[] pictureList){
 
@@ -61,32 +70,89 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     @Override
     public List<ProductEntityDTO> selectProductList(ProductQueryDTO productQueryDTO) {
 
+        List<ProductEntityDTO> productEntityDTOList=new ArrayList<>();
+
         QueryWrapper<Product> queryWrapper=new QueryWrapper<>();
 
-        queryWrapper.eq("zz","a");
+        if (StringUtils.isNotBlank(productQueryDTO.getType())){
+              queryWrapper.eq("type",productQueryDTO.getType());
+        }
 
-        return null;
+        if (StringUtils.isNotBlank(productQueryDTO.getName())){
+            queryWrapper.like("name",productQueryDTO.getName());
+        }
 
+        queryWrapper.eq("is_enable","1");
+
+        PageHelper.startPage(productQueryDTO.getPage(), productQueryDTO.getPageSize());
+        List<Product> productList = productMapper.selectList(queryWrapper);
+
+        for (Product product: productList){
+
+            QueryWrapper<ProductFile> productFileQueryWrapper =new QueryWrapper<>();
+
+            productFileQueryWrapper.eq("product_id",product.getId());
+            productFileQueryWrapper.eq("sequence",1);
+
+            List<ProductFile> productFileList = productFileMapper.selectList(productFileQueryWrapper);
+
+            ProductEntityDTO productEntityDTO=new ProductEntityDTO();
+
+            productEntityDTO.setProductId(product.getId());
+            productEntityDTO.setName(product.getName());
+            productEntityDTO.setDesc(product.getDescription());
+            productEntityDTO.setType(product.getType());
+            if (productFileList.size()>0){
+                productEntityDTO.setPrimaryImage(productFileList.get(0).getFile());
+            }
+            productEntityDTOList.add(productEntityDTO);
+
+        }
+
+        return productEntityDTOList;
     }
 
-    //一个主图
     @Override
-    public List<ProductEntityDTO> selectProductMobile(ProductQueryDTO productQueryDTO) {
+    public ProductEntityDTO selectProductDetail(ProductQueryDTO productQueryDTO) {
 
-        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+        ProductEntityDTO productEntityDTO=new ProductEntityDTO();
 
-        return null;
+        Product product = productMapper.selectById(productQueryDTO.getId());
 
+        List<ProductFileDTO> productFileDTOList=new ArrayList<>();
+
+        if (product!=null){
+
+            productEntityDTO.setType(product.getType());
+
+            productEntityDTO.setProductId(product.getId());
+
+            productEntityDTO.setName(product.getName());
+            productEntityDTO.setDesc(product.getDescription());
+            productEntityDTO.setCreateTime(product.getCreateTime());
+
+
+            QueryWrapper<ProductFile> productFileQueryWrapper=new QueryWrapper<>();
+            productFileQueryWrapper.eq("product_id",product.getId());
+
+            List<ProductFile> productFileList = productFileMapper.selectList(productFileQueryWrapper);
+
+
+            if (productFileList.size()>0){
+                for (ProductFile productFile:productFileList){
+                    ProductFileDTO productFileDTO=new ProductFileDTO();
+                    productFileDTO.setSequence(productFile.getSequence());
+                    productFileDTO.setImage(productFile.getFile());
+                    productFileDTO.setId(productFile.getId());
+                    productFileDTOList.add(productFileDTO);
+                }
+            }
+            productEntityDTO.setIamgeList(productFileDTOList);
+
+        }
+
+        return productEntityDTO;
     }
-
-
-    public  List  test(ProductQueryDTO productQueryDTO){
-
-        return null;
-
-    }
-
-
 
 
 }

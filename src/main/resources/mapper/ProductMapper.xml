@@ -18,7 +18,7 @@
     </sql>
 
 
-    <select id="getProductDataForMobile" resultType="com.example.dto.ProductEntityDTO">
+    <select id="getProductDataForMobile" resultType="com.melo.dto.ProductEntityDTO">
         SELECT * FROM product
         WHERE 1=1
         <if test="query.category != null">
