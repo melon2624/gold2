@@ -2,6 +2,7 @@ package com.melo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.melo.dto.ProductEntityDTO;
+import com.melo.dto.ProductPageVO;
 import com.melo.dto.ProductQueryDTO;
 import com.melo.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,7 @@ public interface ProductService extends IService<Product> {
 
     public  void  deleteProduct(ProductQueryDTO productQueryDTO);
 
-    public List<ProductEntityDTO> selectProductList(ProductQueryDTO productQueryDTO);
+    public ProductPageVO selectProductList(ProductQueryDTO productQueryDTO);
 
 
     public ProductEntityDTO selectProductDetail(ProductQueryDTO productQueryDTO);

@@ -12,34 +12,21 @@ import lombok.Data;
  * 
  * @TableName product_file
  */
-@TableName(value ="test2")
+@TableName(value ="product_file")
 @Data
 public class ProductFile implements Serializable {
-    /**
-     * 
-     */
-    @TableId
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 
-     */
     private Integer productId;
 
-    /**
-     * 
-     */
     private Integer sequence;
 
-    /**
-     * 
-     */
     private String file;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-
 
 
     @Override

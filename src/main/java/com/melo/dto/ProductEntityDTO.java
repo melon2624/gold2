@@ -25,13 +25,13 @@ public class ProductEntityDTO {
     @Schema(description = "是否启用（Y/N）", example = "Y")
     private String isEnable;
 
-    @Schema(description = "产品类型", example = "亲子类目")
+    @Schema(description = "产品类型,  1 亲子类目，2周岁，3婚爱，4主页轮播图 ", example = "亲子类目")
     private String type;
 
-    @Schema(description = "主图，base64", example = "qwdewfwefwe")
+    @Schema(description = "主图", example = "qwdewfwefwe")
     private String primaryImage;
 
-    @Schema(description = "产品图片集合,base64", example = "swduhsuidwwdwd")
+    @Schema(description = "产品图片集合", example = "swduhsuidwwdwd")
     private  List<ProductFileDTO>  iamgeList;
 
     private Date createTime;

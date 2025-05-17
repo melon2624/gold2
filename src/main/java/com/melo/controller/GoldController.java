@@ -48,10 +48,10 @@ public class GoldController {
 
 
     //
-    @GetMapping("/selectProductList")
+    @PostMapping("/selectProductList")
     @Operation(summary = "移动端和pc端都可以，移动端一次查出来 展示主图和一些描述，点进去查看详情, 传page 和 pageSize,产品类型,用于筛选, name 字段用于模糊搜索，不过可以不做先")
-    public List<ProductEntityDTO> selectProductPC(@RequestBody ProductQueryDTO productQueryDTO){
-        return  productService.selectProductList(productQueryDTO);
+    public RetResult  selectProductPC(@RequestBody ProductQueryDTO productQueryDTO){
+        return RetResponse.OK(productService.selectProductList(productQueryDTO)) ;
     }
 
 
@@ -81,14 +81,14 @@ public class GoldController {
     }
 
 
-    @GetMapping("/selectProductDetail")
+    @PostMapping("/selectProductDetail")
     @Operation(summary = "查看产品细节,适用于pc端查看具体某个产品详情和在移动端点进一个产品进入详情页面,传id即可,其他的都不需要")
-    public  ProductEntityDTO  selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
+    public RetResult   selectProductDetail(@RequestBody ProductQueryDTO productQueryDTO){
         ProductEntityDTO productEntityDTO = productService.selectProductDetail(productQueryDTO);
-        return productEntityDTO;
+        return RetResponse.OK(productEntityDTO) ;
     }
     @PostMapping("/updateProduct")
-    @Operation(summary = "更新产品,暂时还没实现")
+    @Operation(summary = "更新产品,暂时不实现，想更新的话，直接删掉重新添加")
     public void  updateProduct(@RequestBody ProductQueryDTO productQueryDTO){
         return;
     }
