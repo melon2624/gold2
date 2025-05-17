@@ -1,0 +1,14 @@
+package com.melo.util;
+
+/**
+ * @author zhangxin
+ * @date 2025-05-18 5:00
+ */
+public class Test {
+
+
+    public static void main(String[] args) {
+        System.out.println("第一次测试提交");
+    }
+
+}
