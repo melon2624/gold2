@@ -9,6 +9,8 @@ public class Test {
 
     public static void main(String[] args) {
         System.out.println("第一次测试提交");
+        System.out.println("第2次测试提交");
+
     }
 
 }
